@@ -1,8 +1,8 @@
-﻿using DOMAIN.SharedKernel.Abstractions;
-using DOMAIN.SharedKernel.Movements;
+﻿using DOMAIN.Movements;
+using DOMAIN.SharedKernel.Abstractions;
 
 
-namespace DOMAIN.SharedKernel.Wallet;
+namespace DOMAIN.Wallet;
 
 public sealed class Wallet : Entity<int>
 {
@@ -15,10 +15,11 @@ public sealed class Wallet : Entity<int>
     public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
 
-    public IReadOnlyCollection<Movement> Transactions => _movement.AsReadOnly();
+    public IReadOnlyCollection<Movement> Movements => _movement.AsReadOnly();
 
 
     private Wallet(string documentId, string name, decimal initialBalance)
+         : base(0)
     {
         DocumentId = documentId;
         Name = name;

@@ -1,4 +1,4 @@
-﻿namespace DOMAIN.SharedKernel.Movements;
+﻿namespace DOMAIN.Movements;
 
 public enum MovementType
 {
