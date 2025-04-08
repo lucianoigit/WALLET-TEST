@@ -1,7 +1,7 @@
 ﻿using DOMAIN.SharedKernel.Primitives;
 using MediatR;
 
-namespace APLICATION.Abstractions.Messagin;
+namespace APPLICATION.Abstractions.Messagin;
 
 public interface ICommand : IRequest<Result>, ICommandBase { }
 public interface ICommand<TResponse> : IRequest<Result<TResponse>>, ICommandBase { }

@@ -1,5 +1,5 @@
 ﻿using MediatR;
 
-namespace APLICATION.Abstractions.Messagin;
+namespace APPLICATION.Abstractions.Messagin;
 
 public interface IQuery<TResponse> : IRequest<TResponse> { }

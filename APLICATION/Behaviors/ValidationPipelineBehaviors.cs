@@ -4,7 +4,7 @@ using MediatR;
 using System.Reflection;
 using DOMAIN.SharedKernel.Primitives;
 
-namespace APLICATION.Behaviors
+namespace APPLICATION.Behaviors
 {
     internal sealed class ValidationPipelineBehavior<TRequest, TResponse>(
         IEnumerable<IValidator<TRequest>> validators)
