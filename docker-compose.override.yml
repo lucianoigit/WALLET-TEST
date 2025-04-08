@@ -4,11 +4,35 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__wallet_testdb=Host=wallet-db;Port=5432;Database=wallet_test;Username=postgres;Password=postgres
+      - ConnectionStrings__Cache=redis:6379
     ports:
       - "8080"
       - "8081"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  wallet-db:
+    image: postgres:16
+    container_name: wallet.database
+    restart: always
+    environment:
+      POSTGRES_DB: wallet_test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./.containers/database:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  redis:
+    image: redis:7
+    container_name: wallet.redis
+    restart: always
+    ports:
+      - "6379:6379"
