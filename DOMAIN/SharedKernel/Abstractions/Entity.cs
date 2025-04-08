@@ -1,7 +1,7 @@
 ﻿namespace DOMAIN.SharedKernel.Abstractions;
 
 public abstract class Entity<TId> : IEquatable<Entity<TId>>
-    where TId : class
+
 {
     public TId Id { get; protected set; }
 
