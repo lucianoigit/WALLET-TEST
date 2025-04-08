@@ -2,7 +2,7 @@
 using DOMAIN.SharedKernel.Abstractions;
 
 
-namespace DOMAIN.Wallet;
+namespace DOMAIN.Wallets;
 
 public sealed class Wallet : Entity<int>
 {
