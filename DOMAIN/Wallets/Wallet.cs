@@ -70,6 +70,39 @@ public sealed class Wallet : Entity<int>
         UpdatedAt = DateTime.UtcNow;
     }
 
+    public void UpdateWallet(string name) // This method will be used if there are more fields that describe the wallet, it will be handled separately from adding funds.
+    {
+        Name = name;
+    }
+
+    public void UpdateFunds(ActionType action, decimal amount)
+    {
+        if (amount <= 0)
+        {
+            throw new InvalidOperationException("Amount must be greater than zero.");
+        }
+
+        switch (action)
+        {
+            case ActionType.Add:
+                Balance += amount;
+                break;
+
+            case ActionType.Withdraw:
+                if (Balance < amount)
+                {
+                    throw new InvalidOperationException("Insufficient funds.");
+                }
+                Balance -= amount;
+                break;
+
+            default:
+                throw new InvalidOperationException("Invalid action type.");
+        }
+
+        UpdatedAt = DateTime.UtcNow;
+    }
+
 
 
 

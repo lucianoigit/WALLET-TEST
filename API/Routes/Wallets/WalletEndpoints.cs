@@ -1,4 +1,5 @@
 ﻿using APPLICATION.Features.Transfers.Wallets.CreateWallet;
+using APPLICATION.Features.Transfers.Wallets.UpdateFunds;
 using APPLICATION.Features.Transfers.Wallets.UpdateWallet;
 using Carter;
 using DOMAIN.SharedKernel.Primitives;
@@ -16,8 +17,25 @@ public class WalletEndpoints:ICarterModule
 
         wallet.MapPost("/POST", CreteWallet);
         wallet.MapPut("/PUT/{id}", UpdateWallet);
+        wallet.MapPut("/UpdateFunds/{id}", UpdateFunds);
 
 
+    }
+
+    private static async Task<IResult> UpdateFunds(
+        int id,
+        UpdateFundsRequest data,
+        ISender sender,
+        CancellationToken cancellationToken)
+
+    {
+        var command = new UpdateFundsCommand(id, data.action, data.amount);
+
+        Result result = await sender.Send(command, cancellationToken);
+
+        if (result.IsFailure) return TypedResults.BadRequest(result.Error);
+
+        return TypedResults.Ok(result);
     }
 
     private static async Task<IResult> UpdateWallet(
