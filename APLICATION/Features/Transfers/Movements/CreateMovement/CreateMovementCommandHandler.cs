@@ -6,7 +6,7 @@ using DOMAIN.Wallets;
 
 namespace APPLICATION.Features.Transfers.Movements.CreateMovement;
 
-public sealed class CreateMovementCommandHandler : ICommandHandler<CreateMovementCommand>
+public class CreateMovementCommandHandler : ICommandHandler<CreateMovementCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMovementRepository _movementRepository;

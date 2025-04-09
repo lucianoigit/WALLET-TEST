@@ -5,7 +5,7 @@ using DOMAIN.Wallets;
 
 namespace APPLICATION.Features.Transfers.Wallets.CreateWallet;
 
-public sealed class CreateWalletCommandHandler : ICommandHandler<CreateWalletCommand>
+public class CreateWalletCommandHandler : ICommandHandler<CreateWalletCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IWalletRepository _walletRepository;

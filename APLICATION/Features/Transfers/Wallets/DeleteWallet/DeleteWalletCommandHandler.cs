@@ -3,29 +3,28 @@ using APPLICATION.Abstractions.Messagin;
 using DOMAIN.SharedKernel.Primitives;
 using DOMAIN.Wallets;
 
-namespace APPLICATION.Features.Transfers.Wallets.UpdateWallet;
+namespace APPLICATION.Features.Transfers.Wallets.DeleteWallet;
 
-public class UpdateWalletCommandHandler : ICommandHandler<UpdateWalletCommand>
+public class DeleteWalletCommandHandler : ICommandHandler<DeleteWalletCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IWalletRepository _walletRepository;
 
-    public UpdateWalletCommandHandler(
+    public DeleteWalletCommandHandler(
         IUnitOfWork unitOfWork,
-        IWalletRepository walletRepository)
-    {
+        IWalletRepository walletRepository
+        )
+    { 
         _unitOfWork = unitOfWork;
         _walletRepository = walletRepository;
     }
-    public async Task<Result> Handle(UpdateWalletCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(DeleteWalletCommand request, CancellationToken cancellationToken)
     {
-        var wallet = await _walletRepository.GetByIdAsync(request.walletId);
+        var wallet = await _walletRepository.GetByIdAsync(request.id);
 
         if (wallet is null) return Result.Failure(WalletErrors.WalletNotFound);
 
-        wallet.UpdateWallet(request.name);
-
-        _walletRepository.Update(wallet);
+        _walletRepository.Remove(wallet);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

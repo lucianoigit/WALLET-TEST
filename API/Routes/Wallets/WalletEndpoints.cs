@@ -1,9 +1,12 @@
 ﻿using APPLICATION.Features.Transfers.Wallets.CreateWallet;
+using APPLICATION.Features.Transfers.Wallets.GetAllWallet;
 using APPLICATION.Features.Transfers.Wallets.UpdateFunds;
 using APPLICATION.Features.Transfers.Wallets.UpdateWallet;
 using Carter;
 using DOMAIN.SharedKernel.Primitives;
 using MediatR;
+using System.Reflection;
+using System.Threading;
 
 namespace API.Routes.Wallets;
 
@@ -18,11 +21,26 @@ public class WalletEndpoints:ICarterModule
         wallet.MapPost("/POST", CreteWallet);
         wallet.MapPut("/PUT/{id}", UpdateWallet);
         wallet.MapPut("/UpdateFunds/{id}", UpdateFunds);
+        wallet.MapGet("/GET", GetAllWallet);
 
 
     }
 
-    private static async Task<IResult> UpdateFunds(
+    private static async Task<IResult> GetAllWallet
+    (
+        int quantity,
+        int page,
+        ISender sender,
+        CancellationToken cancellationToken)
+    {
+            var query = new GetAllWalletQuery(quantity, page);
+
+            var result = await sender.Send(query, cancellationToken);
+
+            return TypedResults.Ok(result);
+        }
+
+        private static async Task<IResult> UpdateFunds(
         int id,
         UpdateFundsRequest data,
         ISender sender,

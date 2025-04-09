@@ -1,10 +1,12 @@
 ﻿using APPLICATION.Abstractions.Caching;
 using APPLICATION.Abstractions.Clock;
 using APPLICATION.Abstractions.Data;
+using APPLICATION.Abstractions.Pagination;
 using DOMAIN.Movements;
 using DOMAIN.Wallets;
 using INFRAESTRUCTURE.Cache;
 using INFRAESTRUCTURE.Clock;
+using INFRAESTRUCTURE.Helpers;
 using INFRAESTRUCTURE.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +24,8 @@ public static class DependencyInjection
         AddPersistence(services, configuration);
 
         AddCaching(services, configuration);
+
+        services.AddScoped<IPaginationService, PaginationService>();
 
         return services;
 

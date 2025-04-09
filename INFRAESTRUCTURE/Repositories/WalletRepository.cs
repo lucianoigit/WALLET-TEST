@@ -14,4 +14,10 @@ internal sealed class WalletRepository : Repository<Wallet, int>, IWalletReposit
         return await _context.Wallets
             .AnyAsync(w => w.DocumentId == documentId, cancellationToken);
     }
+    public async Task<List<Wallet>> GetAllAsync(CancellationToken cancellationToken )
+    {
+        return await _context.Wallets
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
 }
