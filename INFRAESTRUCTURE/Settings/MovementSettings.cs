@@ -30,6 +30,9 @@ internal sealed class MovementSettings : IEntityTypeConfiguration<Movement>
         builder.Property(m => m.Date)
             .IsRequired();
 
+        builder.Property(m => m.ReceivingWalletId)
+        .IsRequired(false); // Es opcional, solo aplica en transferencias
+
         builder.HasOne<Wallet>() // relación uno a muchos
             .WithMany(w => w.Movements)
             .HasForeignKey(m => m.WalletId)
