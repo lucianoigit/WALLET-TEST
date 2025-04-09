@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using APPLICATION.Abstractions.Messagin;
+using APPLICATION.Helpers;
 
-namespace APPLICATION.Features.Transfers.Movements.GetAllMovement
-{
-    internal class GetAllMovementQuery
-    {
-    }
-}
+namespace APPLICATION.Features.Transfers.Movements.GetAllMovement;
+
+public sealed record GetAllMovementQuery(int take, int offset):IQuery<IPagedList<MovementResponse>>;

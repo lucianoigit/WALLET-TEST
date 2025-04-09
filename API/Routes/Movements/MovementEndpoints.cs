@@ -1,4 +1,5 @@
 ﻿using APPLICATION.Features.Transfers.Movements.CreateMovement;
+using APPLICATION.Features.Transfers.Movements.GetAllMovement;
 using Carter;
 using DOMAIN.SharedKernel.Primitives;
 using MediatR;
@@ -10,12 +11,27 @@ public class MovementEndpoints:ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder routes)
     {
-        var loans = routes.MapGroup("/api/movement/")
+        var movement = routes.MapGroup("/api/movement/")
             .WithTags("movement")
             .WithOpenApi();
 
-        loans.MapPost("/POST", CreateMovement);
+        movement.MapPost("/POST", CreateMovement);
+        movement.MapGet("/GET", GetAllMovement);
 
+    }
+
+    private static async Task<IResult> GetAllMovement(
+
+        int quantity,
+        int page,
+        ISender sender,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetAllMovementQuery(quantity, page);
+
+       var result = await sender.Send(query, cancellationToken);
+
+       return TypedResults.Ok(result);
     }
 
     private static async Task<IResult> CreateMovement(
