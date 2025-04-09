@@ -57,7 +57,7 @@ public sealed class CreateMovementCommandHandler : ICommandHandler<CreateMovemen
 
         _movementRepository.Add(movement);
 
-        _walletRepository.Update(issuingWallet);
+        _walletRepository.Update(issuingWallet);  // I recommend using a repository method called updateAll
 
         _walletRepository.Update(receivingWallet);
 

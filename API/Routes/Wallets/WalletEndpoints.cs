@@ -1,8 +1,8 @@
 ﻿using APPLICATION.Features.Transfers.Wallets.CreateWallet;
+using APPLICATION.Features.Transfers.Wallets.UpdateWallet;
 using Carter;
 using DOMAIN.SharedKernel.Primitives;
 using MediatR;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace API.Routes.Wallets;
 
@@ -10,11 +10,29 @@ public class WalletEndpoints:ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder routes)
     {
-        var loans = routes.MapGroup("/api/wallet/")
+        var wallet = routes.MapGroup("/api/wallet/")
             .WithTags("wallets")
             .WithOpenApi();
 
-        loans.MapPost("/POST", CreteWallet);
+        wallet.MapPost("/POST", CreteWallet);
+        wallet.MapPut("/PUT/{id}", UpdateWallet);
+
+
+    }
+
+    private static async Task<IResult> UpdateWallet(
+        int id,
+        UpdateWalletRequest data,
+        ISender sender,
+        CancellationToken cancellationToken)
+    {
+        var command = new UpdateWalletCommand(id,data.name);
+
+        Result result = await sender.Send(command, cancellationToken);
+
+        if (result.IsFailure) return TypedResults.BadRequest(result.Error);
+
+        return TypedResults.Ok(result);
 
     }
 
