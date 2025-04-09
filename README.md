@@ -72,7 +72,6 @@ Entre los casos de uso implementados se encuentran:
 - GetWallets (Consulta de wallets paginada)
 - GetMovements (Consulta de movimientos paginados)
 - DeleteWallet (Elimina una wallet)
-- DeleteMovement (Elimina una transaccion)
 
 Cada uno de estos casos de uso cuenta con su correspondiente Command, Handler y tests.
 
