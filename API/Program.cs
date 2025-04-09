@@ -1,5 +1,6 @@
 using API.Extensions;
 using APPLICATION;
+using Carter;
 using INFRAESTRUCTURE;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,8 +15,8 @@ builder.Services
 
 
 
-builder.Services.AddProblemDetails();
-                //.AddCarter();
+builder.Services.AddProblemDetails()
+                .AddCarter();
 
 var app = builder.Build();
 
@@ -26,7 +27,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    //app.MapCarter();
+    app.MapCarter();
 }
 
 app.UseHttpsRedirection();

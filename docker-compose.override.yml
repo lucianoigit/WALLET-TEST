@@ -12,6 +12,9 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    networks:
+      - wallet-network
+
   wallet-db:
     image: postgres:16
     container_name: wallet.database
@@ -29,6 +32,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    networks:
+      - wallet-network
 
   redis:
     image: redis:7
@@ -36,3 +41,22 @@ services:
     restart: always
     ports:
       - "6379:6379"
+    networks:
+      - wallet-network
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    restart: always
+    depends_on:
+      - wallet-db
+    environment:
+      ADMINER_DESIGN: galkaev
+    ports:
+      - 8080:8080
+    networks:
+      - wallet-network
+
+networks:
+  wallet-network:
+    driver: bridge
