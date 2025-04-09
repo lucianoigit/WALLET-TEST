@@ -33,4 +33,44 @@ public sealed class Wallet : Entity<int>
     {
         return new Wallet(documentId, name, initialBalance);
     }
+
+    public void Transfer(Movement movement)
+    {
+        if (movement is null)
+            throw new ArgumentNullException(nameof(movement));
+
+        if (movement.Type != MovementType.Debit && movement.Type != MovementType.Credit)
+            throw new InvalidOperationException("Invalid transfer method.");
+
+        if (movement.Amount <= 0)
+            throw new InvalidOperationException("Amount must be greater than zero.");
+
+        if (Balance < movement.Amount)
+            throw new InvalidOperationException("Insufficient funds for this transaction.");
+
+    
+        Balance -= movement.Amount;
+
+
+        _movement.Add(movement);
+
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void Receive(Movement movement)
+    {
+        if (movement.Type != MovementType.Debit && movement.Type != MovementType.Credit)
+            throw new InvalidOperationException("Invalid transfer method.");
+
+        if (movement.Amount <= 0)
+            throw new InvalidOperationException("Amount must be greater than zero.");
+
+        Balance += movement.Amount;
+
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+
+
+
 }
